@@ -8,3 +8,5 @@ interface IQuizDB {
     createQuiz(quiz: QuizInfo): Promise<QuizInfo>;
     getOwnerQuizList(ownerId: string): Promise<string[]>;
 }
+
+export default IQuizDB;
