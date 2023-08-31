@@ -20,6 +20,7 @@
   "dependencies": {
     "@apollo/server": "^4.9.1",
     "graphql": "^16.8.0",
-    "redis": "^4.6.8"
+    "redis": "^4.6.8",
+    "uuid": "^9.0.0"
   }
 }

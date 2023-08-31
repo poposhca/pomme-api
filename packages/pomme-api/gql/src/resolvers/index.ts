@@ -1,12 +1,13 @@
+import { v4 as uuidv4 } from 'uuid';
 import { quizDB } from '../infraestructure/redis/index.js';
 import { QuizInfo } from "../models/QuizInfo.js";
 
 const resolvers = {
     Mutation: {
-        createQuiz: async (_, { name }) => {
+        createQuiz: async (_, { name, quiz }) => {
+            const id = uuidv4();
             const newQuizInfo : QuizInfo = ({
-                // TODO: generate id
-                id: '1',
+                id,
                 name: name as string,
                 image: '',
                 createdAt: new Date(),
@@ -14,11 +15,16 @@ const resolvers = {
                 availableDate: new Date(),
                 notesDocumentId: '',
             });
-            await quizDB.createQuiz(newQuizInfo);
+            await quizDB.setQuizInfo(newQuizInfo);
+            await quizDB.setQuiz(id, quiz);
             return newQuizInfo;
         },
     },
     Query: {
+        userQuizList: async (_, { ownerId }) => {
+            const result = await quizDB.getOwnerQuizList(ownerId);
+            return result;
+        },
         quizInfo: async (_, { id }) => {
             const quiz = await quizDB.getQuizInfo(id);
             console.log('result');

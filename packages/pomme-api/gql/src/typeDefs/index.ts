@@ -10,10 +10,11 @@ const typeDefs = `#graphql
     }
     
     type Mutation {
-        createQuiz(name: String!): QuizInfo!
+        createQuiz(name: String!, quiz: String!): QuizInfo!
     }
     
     type Query {
+        userQuizList(ownerId: String!): [QuizInfo!]!
         quizInfo(id: String!): QuizInfo!
     }
 `;
