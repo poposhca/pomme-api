@@ -25,6 +25,7 @@ const resolvers = {
             const result = await quizDB.getOwnerQuizList(ownerId);
             return result;
         },
+        //TODO: Add query to get all quizzes info
         quizInfo: async (_, { id }) => {
             const quiz = await quizDB.getQuizInfo(id);
             console.log('result');

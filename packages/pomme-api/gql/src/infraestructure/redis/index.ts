@@ -1,7 +1,15 @@
 import { createClient } from 'redis';
 import QuizDB from './QuizDB.js';
+import { redisConfig } from '../../config.js';
 
-const redisClient = createClient({});
+const { user, password, host, port } = redisConfig;
+
+const redisClient = createClient({
+    url: `rediss://${user}:${password}@${host}:${port}`,
+});
+
+redisClient.on('error', err => console.log('Redis Client Error', err));
+
 await redisClient.connect();
 
 
