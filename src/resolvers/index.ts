@@ -25,9 +25,22 @@ const resolvers = {
             const result = await quizDB.getOwnerQuizList(ownerId);
             return result;
         },
-        //TODO: Add query to get all quizzes info
+        getAllQuizesInfo: async (_, { count = 8, offset = 0 }) => {
+            console.log('GETTING QUIZES INFO LIST');
+            const quizesInfoArrays = await quizDB.getQuizList();
+            let quizesInfo: QuizInfo[] = [];
+            for(const id of quizesInfoArrays) {
+                try {
+                    const quizInfo = await quizDB.getQuizInfo(id);
+                    quizesInfo.push(quizInfo);
+                } catch (error) {
+                    console.log(`Error getting quiz ${id}\n${error.message}`);
+                }
+            }
+            return quizesInfo;
+        },
         quizInfo: async (_, { id }) => {
-            const quiz = await quizDB.getQuizInfo(id);
+            const quiz = await quizDB.getQuizInfo(`quizInfo:${id}`);
             console.log('result');
             console.log(quiz.name);
             return quiz;

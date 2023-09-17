@@ -10,11 +10,22 @@ const QuizDB = ({ client }) : IQuizDB => ({
         await client.set(`quiz:${id}`, JSON.stringify(quiz));
     },
     getQuizList: async () => {
-        return Promise.resolve([]);
+        try {
+            const result = await client.keys('quizInfo:*');
+            return result;
+        } catch (error) {
+            console.log(error.message);
+            throw new Error(`REDIS ERROR ${error.message}`);
+        }
     },
     getQuizInfo: async (id : string) => {
-        const result = await client.get(`quizInfo:${id}`);
-        return JSON.parse(result);
+        try {
+            const result = await client.get(id);
+            return JSON.parse(result);
+        } catch (error) {
+            console.log(error.message);
+            throw new Error(`REDIS ERROR ${error.message}`);
+        }
     },
     getQuiz: async (id: string) => {
         return Promise.resolve({} as Quiz);

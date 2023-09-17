@@ -15,6 +15,7 @@ const typeDefs = `#graphql
     
     type Query {
         userQuizList(ownerId: String!): [QuizInfo!]!
+        getAllQuizesInfo(count: Int, offset: Int): [QuizInfo!]!
         quizInfo(id: String!): QuizInfo!
     }
 `;
