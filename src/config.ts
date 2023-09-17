@@ -5,6 +5,11 @@ const redisConfig = {
     port: process.env.REDIS_PORT || '6379',
 };
 
+const appConfig = {
+    port: Number(process.env.PORT) || 8080,
+}
+
 export {
     redisConfig,
+    appConfig,
 };

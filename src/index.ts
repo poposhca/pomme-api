@@ -1,8 +1,9 @@
 import { startStandaloneServer } from '@apollo/server/standalone';
 import server from './server/index.js';
+import { appConfig } from './config.js';
 
 startStandaloneServer(server, {
-    listen: { port: 4000 },
+    listen: { port: appConfig.port },
 });
 
-console.log(`🚀 Server ready at port 4000`);
+console.log(`🚀 Pomme Server ready at port ${appConfig.port}`);
