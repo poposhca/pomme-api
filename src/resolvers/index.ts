@@ -4,7 +4,7 @@ import { QuizInfo } from "../models/QuizInfo.js";
 
 const resolvers = {
     Mutation: {
-        createQuiz: async (_, { name, quiz }) => {
+        createQuiz: async (_, { name, quiz, userId }) => {
             const id = uuidv4();
             const newQuizInfo : QuizInfo = ({
                 id,
@@ -15,8 +15,13 @@ const resolvers = {
                 availableDate: new Date(),
                 notesDocumentId: '',
             });
+            const newQuiz = {
+                id,
+                adminId: userId,
+                quizItems: quiz,
+            };
             await quizDB.setQuizInfo(newQuizInfo);
-            await quizDB.setQuiz(id, quiz);
+            await quizDB.setQuiz(id, newQuiz);
             return newQuizInfo;
         },
     },
@@ -44,7 +49,8 @@ const resolvers = {
             console.log('result');
             console.log(quiz.name);
             return quiz;
-        }
+        },
+        quiz: async (_, { id }) => await quizDB.getQuiz(id),
     },
 };
 
