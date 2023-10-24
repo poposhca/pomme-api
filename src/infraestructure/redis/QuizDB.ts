@@ -6,7 +6,7 @@ const QuizDB = ({ client }) : IQuizDB => ({
     setQuizInfo: async (quiz: QuizInfo)=> {
         await client.set(`quizInfo:${quiz.id}`, JSON.stringify(quiz));
     },
-    setQuiz: async (id: string, quiz: Quiz)=> {
+    setQuiz: async (id: string, quiz: any)=> {
         await client.set(`quiz:${id}`, JSON.stringify(quiz));
     },
     getQuizList: async () => {
@@ -28,7 +28,13 @@ const QuizDB = ({ client }) : IQuizDB => ({
         }
     },
     getQuiz: async (id: string) => {
-        return Promise.resolve({} as Quiz);
+        try {
+            const result = await client.get(`quiz:${id}`);
+            return JSON.parse(result);
+        } catch (error) {
+            console.log(error.message);
+            throw new Error(`REDIS ERROR ${error.message}`);
+        }
     },
     getOwnerQuizList: async (ownerId: string)=> {
         const quizInfoIds = await client.keys(`quizInfo:*`);

@@ -9,14 +9,21 @@ const typeDefs = `#graphql
         notesDocumentId: String
     }
     
+    type Quiz {
+        id: String!
+        adminId: String!
+        quizItems: String!
+    }
+    
     type Mutation {
-        createQuiz(name: String!, quiz: String!): QuizInfo!
+        createQuiz(name: String!, quiz: String!, userId: String!): QuizInfo!
     }
     
     type Query {
         userQuizList(ownerId: String!): [QuizInfo!]!
         getAllQuizesInfo(count: Int, offset: Int): [QuizInfo!]!
         quizInfo(id: String!): QuizInfo!
+        quiz(id: String!): Quiz!
     }
 `;
 
