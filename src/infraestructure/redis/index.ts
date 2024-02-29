@@ -5,7 +5,7 @@ import { redisConfig } from '../../config.js';
 const { user, password, host, port } = redisConfig;
 
 const redisClient = createClient({
-    url: `rediss://${user}:${password}@${host}:${port}`,
+    url: `redis://${user}:${password}@${host}:${port}`,
 });
 
 redisClient.on('error', err => console.log('Redis Client Error', err));
