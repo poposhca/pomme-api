@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { GraphQLError } from 'graphql';
-import { quizDB } from '../infraestructure/index.js';
+import { quizDB } from '../adapters/index.js';
 import { QuizInfo } from "../models/QuizInfo.js";
 
 const resolvers = {
