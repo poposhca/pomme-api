@@ -1,5 +1,5 @@
-import { QuizInfo } from './QuizInfo.js';
-import { Quiz } from './Quiz.js';
+import { QuizInfo } from '../models/QuizInfo.js';
+import { Quiz } from '../models/Quiz.js';
 
 interface IQuizDB {
     setQuizInfo(quiz: QuizInfo): Promise<void>;
