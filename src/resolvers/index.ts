@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
-import { quizDB } from '../infraestructure/redis/index.js';
+import { GraphQLError } from 'graphql';
+import { quizDB } from '../adapters/index.js';
 import { QuizInfo } from "../models/QuizInfo.js";
 
 const resolvers = {
@@ -32,17 +33,28 @@ const resolvers = {
         },
         getAllQuizesInfo: async (_, { count = 8, offset = 0 }) => {
             console.log('GETTING QUIZES INFO LIST');
-            const quizesInfoArrays = await quizDB.getQuizList();
-            let quizesInfo: QuizInfo[] = [];
-            for(const id of quizesInfoArrays) {
-                try {
-                    const quizInfo = await quizDB.getQuizInfo(id);
-                    quizesInfo.push(quizInfo);
-                } catch (error) {
-                    console.log(`Error getting quiz ${id}\n${error.message}`);
+            try {
+                const quizesInfoArrays = await quizDB.getQuizList();
+                let quizesInfo: QuizInfo[] = [];
+                for (const id of quizesInfoArrays) {
+                    try {
+                        const quizInfo = await quizDB.getQuizInfo(id);
+                        quizesInfo.push(quizInfo);
+                    } catch (error) {
+                        console.log(`Error getting quiz info ${id}`);
+                    }
                 }
+                return quizesInfo;
+            } catch (error) {
+                throw new GraphQLError('Error getting quiz list', {
+                    extensions: {
+                        code: 'SOMETHING_BAD_HAPPENED',
+                        http: {
+                            status: 500,
+                        },
+                    }
+                });
             }
-            return quizesInfo;
         },
         quizInfo: async (_, { id }) => {
             const quiz = await quizDB.getQuizInfo(`quizInfo:${id}`);
