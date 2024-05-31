@@ -7,6 +7,10 @@ const redisConfig = {
 
 const appConfig = {
     port: Number(process.env.PORT) || 8080,
+    cors: {
+        origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
+        methods: process.env.CORS_METHODS || '*',
+    },
 }
 
 export {
